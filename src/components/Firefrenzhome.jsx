@@ -10,21 +10,46 @@ import { FaPlay, FaPause } from "react-icons/fa"; // Import play & pause icons
 import CardLayout from "./CardGrid";
 
 function Firefrenzhome() {
+  const [isMuted, setIsMuted] = useState(true); // Start muted
+  const videoRef = useRef(null);
   useEffect(() => {
     AOS.init({ duration: 1000, easing: "ease-in-out" });
   }, []);
 
-  const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  // const videoRef = useRef(null);
+  // const [isPlaying, setIsPlaying] = useState(false);
 
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
+  // const togglePlay = () => {
+  //   if (videoRef.current) {
+  //     if (isPlaying) {
+  //       videoRef.current.pause();
+  //     } else {
+  //       videoRef.current.play();
+  //     }
+  //     setIsPlaying(!isPlaying);
+  //   }
+  // };
+
+
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (video) {
+      video.muted = true; // Ensure it starts muted
+      video.volume = 1;
+      video.play().catch((err) => {
+        console.error("Autoplay with sound failed:", err);
+      });
+    }
+  }, []);
+
+  // Unmute on user interaction
+  const unmuteVideo = () => {
+    const video = videoRef.current;
+    if (video && isMuted) {
+      video.muted = false;
+      setIsMuted(false); // Update state to prevent repeated unmuting
     }
   };
 
@@ -60,13 +85,17 @@ function Firefrenzhome() {
           {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
       </div> */}
-      <div className="relative w-full flex justify-center items-center md:h-[700px] h-60 opacity-75">
+      <div className="relative w-full flex justify-center items-center md:h-[700px] h-60 opacity-75" onClick={unmuteVideo}>
         {/* Background Video */}
         <video
+        ref={videoRef}
           className="absolute top-0 left-0 w-full h-full object-cover"
           autoPlay
-          loop
-          muted
+  loop
+
+
+  muted={isMuted} // Initially muted
+  playsInline
         >
           <source src={firefrenzvideo} type="video/mp4" />
           Your browser does not support the video tag.
