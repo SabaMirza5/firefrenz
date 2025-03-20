@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import aboutfire from "../assets/imgs/aboutfire.gif";
-
 import firefrenzvideo from "../assets/imgs/firefrenzvideo.mp4";
 import logo from "../assets/imgs/logo.png";
 import logo2 from "../assets/imgs/logo2.png";
@@ -10,8 +9,6 @@ import { FaPlay, FaPause } from "react-icons/fa"; // Import play & pause icons
 import CardLayout from "./CardGrid";
 
 function Firefrenzhome() {
-  const [isMuted, setIsMuted] = useState(true); // Start muted
-  // const videoRef = useRef(null);
   useEffect(() => {
     AOS.init({ duration: 1000, easing: "ease-in-out" });
   }, []);
@@ -33,7 +30,6 @@ function Firefrenzhome() {
   return (
     <div className="bg-black">
       <div className="relative w-full flex justify-center items-center">
-       
         <div className="absolute md:top-6 top-3 left-0 w-full flex justify-between items-center lg:px-[100px] px-2  z-10">
           <div>
             <img src={logo} alt="Logo 1" className="md:w-[100%] w-8" />
@@ -49,12 +45,12 @@ function Firefrenzhome() {
           height="500"
           className="rounded-lg"
           loop
+          playsInline
         >
           <source src={firefrenzvideo} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
-        
         <button
           onClick={togglePlay}
           className="absolute flex items-center justify-center w-16 h-16 rounded-full bg-black bg-opacity-70 hover:bg-opacity-90 text-white text-3xl transition-all duration-300"
@@ -62,7 +58,6 @@ function Firefrenzhome() {
           {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
       </div>
-      
 
       {/* About Section */}
       <section className=" lg:py-28 flex justify-between lg:flex-row flex-col-reverse gap-10">
